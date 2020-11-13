@@ -49,6 +49,18 @@ public class Quiz implements ActionListener{
     Font buttonFont = new Font("MV Boli", Font.BOLD, 35);
     Font labelFont = new Font("MV Boli", Font.PLAIN, 35);
 
+    Color wrong = new Color(255,0,0);
+
+    Timer timer = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            seconds--;
+            seconds_left.setText(String.valueOf(seconds));
+            if(seconds <=0 ){
+                displayAnswer();
+            }
+        }
+    });
 
     public Quiz() {
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -192,20 +204,80 @@ public class Quiz implements ActionListener{
             answer_labelB.setText(options[index][1]);
             answer_labelC.setText(options[index][2]);
             answer_labelD.setText(options[index][3]);
+            timer.start();
         }
 
     }
 
     public void displayAnswer(){
 
+        timer.stop();
+        buttonA.setEnabled(false);
+        buttonB.setEnabled(false);
+        buttonC.setEnabled(false);
+        buttonD.setEnabled(false);
+
+        if(answers[index] != 'A'){
+            answer_labelA.setForeground(wrong);
+        }
+        if(answers[index] != 'B'){
+            answer_labelB.setForeground(wrong);
+        }
+        if(answers[index] != 'C'){
+            answer_labelC.setForeground(wrong);
+        }
+        if(answers[index] != 'D'){
+            answer_labelD.setForeground(wrong);
+        }
+
+        Timer pause = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                answer_labelA.setForeground(foreground);
+                answer_labelB.setForeground(foreground);
+                answer_labelC.setForeground(foreground);
+                answer_labelD.setForeground(foreground);
+
+                answer =' ';
+                seconds = 10;
+                seconds_left.setText(String.valueOf(seconds));
+
+                buttonA.setEnabled(true);
+                buttonB.setEnabled(true);
+                buttonC.setEnabled(true);
+                buttonD.setEnabled(true);
+                index++;
+                nextQuestion();
+            }
+        });
+
+        pause.setRepeats(false);
+        pause.start();
     }
 
     public void results(){
+      buttonA.setEnabled(false);
+      buttonB.setEnabled(false);
+      buttonC.setEnabled(false);
+      buttonD.setEnabled(false);
+
+      result = (int)((correct_guesses / (double) total_questions) * 100);
+      textField.setText("Results : ");
+              textArea.setText(" ");
+
+              answer_labelA.setText("");
+              answer_labelB.setText("");
+              answer_labelC.setText("");
+              answer_labelD.setText("");
+
+              number_right.setText("(" + correct_guesses + "/" + total_questions + ")");
+              percentage.setText(result+"%");
+
+              frame.add(percentage);
+              frame.add(number_right);
+
 
     }
-
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -221,23 +293,25 @@ public class Quiz implements ActionListener{
             }
         }
         if (e.getSource() == buttonB){
-            answer = 'A';
+            answer = 'B';
             if(answer == answers[index]){
                 correct_guesses++;
             }
         }
         if (e.getSource() == buttonC){
-            answer = 'A';
+            answer = 'C';
             if(answer == answers[index]){
                 correct_guesses++;
             }
         }
         if (e.getSource() == buttonD){
-            answer = 'A';
+            answer = 'D';
             if(answer == answers[index]){
                 correct_guesses++;
             }
         }
+
+        displayAnswer();
 
 
 
