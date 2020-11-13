@@ -209,6 +209,38 @@ public class Quiz implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        buttonA.setEnabled(false);
+        buttonB.setEnabled(false);
+        buttonC.setEnabled(false);
+        buttonD.setEnabled(false);
+
+        if (e.getSource() == buttonA){
+            answer = 'A';
+            if(answer == answers[index]){
+                correct_guesses++;
+            }
+        }
+        if (e.getSource() == buttonB){
+            answer = 'A';
+            if(answer == answers[index]){
+                correct_guesses++;
+            }
+        }
+        if (e.getSource() == buttonC){
+            answer = 'A';
+            if(answer == answers[index]){
+                correct_guesses++;
+            }
+        }
+        if (e.getSource() == buttonD){
+            answer = 'A';
+            if(answer == answers[index]){
+                correct_guesses++;
+            }
+        }
+
+
+
 
     }
 }
